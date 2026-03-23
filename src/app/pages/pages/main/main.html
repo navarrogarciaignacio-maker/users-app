@@ -1,0 +1,45 @@
+<div class="container mt-4">
+
+  <div *ngIf="mode==='list'">
+    <a routerLink="/newuser" class="btn btn-success mb-3">Nuevo</a>
+
+    <div class="row">
+      <div class="col-md-4" *ngFor="let u of users">
+        <div class="card mb-3">
+          <img [src]="u.image">
+          <div class="card-body">
+            <h5>{{u.first_name}} {{u.last_name}}</h5>
+
+            <a [routerLink]="['/user', u._id]" class="btn btn-primary">Ver</a>
+            <button (click)="delete(u._id)" class="btn btn-danger">Borrar</button>
+            <a [routerLink]="['/updateuser', u._id]" class="btn btn-warning">Editar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mode==='detail' && user">
+    <img [src]="user.image" width="200">
+    <h2>{{user.first_name}} {{user.last_name}}</h2>
+    <p>{{user.email}}</p>
+
+    <a routerLink="/home" class="btn btn-secondary">Volver</a>
+    <a [routerLink]="['/updateuser', user._id]" class="btn btn-warning">Editar</a>
+  </div>
+
+  <div *ngIf="mode==='form'">
+    <h2>{{isEdit ? 'Actualizar' : 'Nuevo'}} usuario</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <input formControlName="first_name" placeholder="Nombre" class="form-control mb-2">
+      <input formControlName="last_name" placeholder="Apellido" class="form-control mb-2">
+      <input formControlName="email" placeholder="Email" class="form-control mb-2">
+      <input formControlName="image" placeholder="Imagen URL" class="form-control mb-2">
+
+      <button class="btn btn-primary">Guardar</button>
+      <a routerLink="/home" class="btn btn-secondary">Volver</a>
+    </form>
+  </div>
+
+</div>

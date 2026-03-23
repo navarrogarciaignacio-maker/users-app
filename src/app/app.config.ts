@@ -1,12 +1,16 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+@Injectable({ providedIn: 'root' })
+export class UserService {
 
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideClientHydration(withEventReplay())
-  ]
-};
+  private url = 'https://peticiones.online/users';
+
+  constructor(private http: HttpClient) {}
+
+  getAll() { return this.http.get<any>(this.url); }
+  getById(id: string) { return this.http.get<any>(`${this.url}/${id}`); }
+  create(u: any) { return this.http.post(this.url, u); }
+  update(id: string, u: any) { return this.http.put(`${this.url}/${id}`, u); }
+  delete(id: string) { return this.http.delete(`${this.url}/${id}`); }
+}
